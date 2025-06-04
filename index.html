@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>气压单位转换器 | Bar ↔ PSI</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>气压单位转换器 | Bar 转 PSI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,9 +23,70 @@
         }
         
         .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 500px;
-            animation: fadeIn 0.8s ease-out;
+            max-width: 700px;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+        }
+        
+        h1 {
+            color: #1a2a6c;
+            margin-bottom: 10px;
+            font-size: 2.8rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            width: 50%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #1a2a6c, transparent);
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            color: #555;
+            margin: 15px 0 30px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        .converter {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .input-group {
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
         }
         
         @keyframes fadeIn {
@@ -33,131 +94,29 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .converter-card {
-            background: rgba(255, 255, 255, 0.97);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            transition: transform 0.4s ease;
-        }
-        
-        .converter-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-        }
-        
-        .header {
-            background: linear-gradient(45deg, #2c3e50, #1a2a6c);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-        
-        .header h1 {
-            font-size: 2.4rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .header p {
-            font-size: 1.15rem;
-            opacity: 0.92;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .conversion-direction {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px 0 30px;
-            gap: 15px;
-        }
-        
-        .direction-btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 1.4rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
-        
-        .direction-btn:hover {
-            background: #2980b9;
-            transform: rotate(180deg);
-            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
-        }
-        
-        .direction-text {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2c3e50;
-            background: linear-gradient(to right, #3498db, #2c3e50);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding: 5px 15px;
-            border-radius: 30px;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .input-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
         label {
             display: block;
-            margin-bottom: 10px;
+            text-align: left;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: #2c3e50;
-            font-size: 1.15rem;
+            color: #1a2a6c;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
-        .input-container {
-            position: relative;
-            display: flex;
-            align-items: center;
+        label i {
+            font-size: 1.2rem;
         }
         
         input {
             width: 100%;
-            padding: 18px 20px 18px 55px;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            font-size: 1.25rem;
+            padding: 18px 20px;
+            padding-right: 70px;
+            font-size: 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 12px;
             outline: none;
             transition: all 0.3s ease;
             background: #f8f9fa;
@@ -165,371 +124,406 @@
         }
         
         input:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2), inset 0 2px 5px rgba(0,0,0,0.05);
+            border-color: #1a2a6c;
+            box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.2);
         }
         
-        .unit-icon {
+        input.error {
+            border-color: #e74c3c;
+            background: #fff5f5;
+        }
+        
+        .unit {
             position: absolute;
-            left: 18px;
-            color: #3498db;
-            font-size: 1.4rem;
+            right: 20px;
+            top: 52px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1a2a6c;
         }
         
-        .result-container {
-            background: linear-gradient(to right, #f8f9fa, #eef2f7);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 10px;
-            border-left: 5px solid #3498db;
+        .swap-btn {
+            background: #1a2a6c;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        
-        .result-value {
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: #2c3e50;
-            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 12px;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(26, 42, 108, 0.3);
+            animation: pulse 2s infinite;
         }
         
-        .result-label {
-            font-size: 1.15rem;
-            color: #7f8c8d;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 500;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(26, 42, 108, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(26, 42, 108, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(26, 42, 108, 0); }
+        }
+        
+        .swap-btn:hover {
+            background: #0d1a4a;
+            transform: scale(1.05) rotate(180deg);
+        }
+        
+        .swap-btn:active {
+            transform: scale(0.95);
         }
         
         .formula {
-            background: linear-gradient(to right, #e3f2fd, #d5e8f9);
-            border-radius: 12px;
+            background: #eef5ff;
             padding: 20px;
-            margin-top: 25px;
-            font-size: 1.05rem;
-            color: #2c3e50;
-            border-left: 4px solid #3498db;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: left;
+            border-left: 4px solid #1a2a6c;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         .formula h3 {
-            margin-bottom: 12px;
+            color: #1a2a6c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.3rem;
         }
         
-        .formula-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .formula p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 1.1rem;
         }
         
-        .conversion-table {
-            width: 100%;
-            margin-top: 25px;
-            border-collapse: collapse;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        
-        .conversion-table th, .conversion-table td {
-            padding: 14px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        .conversion-table th {
-            background: linear-gradient(to right, #3498db, #2c3e50);
+        .conversion-rate {
+            background: linear-gradient(135deg, #1a2a6c, #0d1a4a);
             color: white;
-            font-weight: 600;
-        }
-        
-        .conversion-table tr:nth-child(even) {
-            background-color: #f5f9ff;
-        }
-        
-        .conversion-table tr:hover {
-            background: #e3f2fd;
-        }
-        
-        .info {
-            margin-top: 25px;
-            font-size: 0.95rem;
-            color: #5a6268;
-            line-height: 1.7;
-            padding: 18px;
-            background: #f9f9f9;
+            padding: 15px;
             border-radius: 12px;
-            border-left: 4px solid #3498db;
+            margin: 20px 0;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.2rem;
         }
         
-        .info p {
-            margin-bottom: 12px;
+        .examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
         }
         
-        .info p:last-child {
-            margin-bottom: 0;
+        .example-card {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            background: #e0edff;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            border-color: #1a2a6c;
+        }
+        
+        .example-value {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #1a2a6c;
+            margin-bottom: 5px;
+        }
+        
+        .example-label {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            text-align: left;
+            margin-top: 8px;
+            display: none;
+        }
+        
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a2a6c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .info-bar i {
+            margin-right: 8px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9rem;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
         }
         
         @media (max-width: 600px) {
-            .header h1 {
-                font-size: 2rem;
+            .container {
+                padding: 25px 20px;
             }
             
-            .content {
-                padding: 20px 15px;
+            h1 {
+                font-size: 2.2rem;
             }
             
-            .result-value {
-                font-size: 2rem;
+            .subtitle {
+                font-size: 1rem;
             }
             
-            .direction-text {
-                font-size: 1.15rem;
-                padding: 4px 10px;
+            input {
+                font-size: 1.3rem;
+                padding: 15px;
+                padding-right: 60px;
             }
             
-            .direction-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 1.2rem;
+            .unit {
+                top: 48px;
+                font-size: 1rem;
             }
-        }
-        
-        /* 水波动画 */
-        .water-wave {
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-        }
-        
-        .water-wave::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            animation: wave 8s infinite linear;
-            z-index: 1;
-        }
-        
-        @keyframes wave {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            
+            .examples {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .info-bar {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="converter-card water-wave">
-            <div class="header">
-                <h1><i class="fas fa-wind"></i> 气压单位转换器</h1>
-                <p>Bar (巴) 与 PSI (磅力每平方英寸) 相互转换</p>
+        <h1><i class="fas fa-tachometer-alt"></i> 气压单位转换器</h1>
+        <p class="subtitle">在Bar(公制单位)与PSI(英制单位)之间进行精确转换，支持实时双向转换</p>
+        
+        <div class="converter">
+            <div class="input-group">
+                <label for="bar"><i class="fas fa-weight-hanging"></i> Bar (公制单位)</label>
+                <input type="number" id="bar" placeholder="输入Bar值" value="1">
+                <div class="unit">bar</div>
+                <div class="error-message">气压值不能为负！</div>
             </div>
             
-            <div class="content">
-                <div class="conversion-direction">
-                    <div class="direction-text" id="conversion-direction">Bar → PSI</div>
-                    <button class="direction-btn" id="swap-btn">
-                        <i class="fas fa-exchange-alt"></i>
-                    </button>
-                </div>
-                
-                <div class="input-group">
-                    <label for="input-value"><i class="fas fa-arrow-circle-right"></i> <span id="input-label">输入气压值 (Bar)</span></label>
-                    <div class="input-container">
-                        <i class="fas fa-pencil-alt unit-icon" id="input-icon"></i>
-                        <input type="number" id="input-value" placeholder="输入数值..." min="0" step="0.01">
-                    </div>
-                </div>
-                
-                <div class="result-container">
-                    <div class="result-label">
-                        <i class="fas fa-long-arrow-alt-down"></i> <span id="result-label">转换结果 (PSI)</span>
-                    </div>
-                    <div class="result-value">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span id="result-value">0.00</span>
-                    </div>
-                </div>
-                
-                <div class="formula">
-                    <h3><i class="fas fa-calculator"></i> 转换公式</h3>
-                    <div class="formula-content">
-                        <p id="formula-text">1 bar = 14.503773773 psi</p>
-                        <p><strong id="formula-equation">PSI = Bar × 14.503773773</strong></p>
-                    </div>
-                </div>
-                
-                <h3 style="margin-top: 25px; color: #2c3e50; display: flex; align-items: center; gap: 10px;">
-                    <i class="fas fa-table"></i> 常用气压值对照表
-                </h3>
-                <table class="conversion-table">
-                    <thead>
-                        <tr>
-                            <th id="table-header-1">Bar</th>
-                            <th id="table-header-2">PSI</th>
-                        </tr>
-                    </thead>
-                    <tbody id="conversion-table-body">
-                        <!-- Table will be populated by JavaScript -->
-                    </tbody>
-                </table>
-                
-                <div class="info">
-                    <p><i class="fas fa-info-circle"></i> <strong>Bar</strong> 是公制压力单位，常用于欧洲和气象领域。1 bar 等于 100,000 帕斯卡。</p>
-                    <p><i class="fas fa-info-circle"></i> <strong>PSI</strong> (磅力每平方英寸) 是英制压力单位，常用于美国和汽车领域。1 PSI 等于 1 磅力作用在 1 平方英寸面积上产生的压力。</p>
-                    <p><i class="fas fa-lightbulb"></i> <strong>应用场景</strong>: 汽车轮胎气压通常使用 PSI (美国) 或 Bar (欧洲)，气象气压报告常用 Bar 或 hPa (百帕)。</p>
-                </div>
+            <button class="swap-btn" id="swapBtn" title="交换单位">
+                <i class="fas fa-exchange-alt"></i>
+            </button>
+            
+            <div class="input-group">
+                <label for="psi"><i class="fas fa-compress-arrows-alt"></i> PSI (英制单位)</label>
+                <input type="number" id="psi" placeholder="输入PSI值" value="14.504">
+                <div class="unit">psi</div>
+                <div class="error-message">气压值不能为负！</div>
             </div>
+        </div>
+        
+        <div class="formula">
+            <h3><i class="fas fa-calculator"></i> 转换公式与说明</h3>
+            <p><strong>1 bar = 14.503773773 psi</strong></p>
+            <p><strong>1 psi = 0.0689475729 bar</strong></p>
+            
+            <div class="conversion-rate">
+                转换系数: 1 bar ≈ 14.504 psi
+            </div>
+            
+            <p>Bar(巴)是公制压力单位，常用于欧洲和气象领域。PSI(磅力每平方英寸)是英制压力单位，广泛用于美国和工程领域。</p>
+            <p>要执行转换，只需在任一字段中输入数值，另一个字段会自动计算转换结果。</p>
+        </div>
+        
+        <div class="examples">
+            <div class="example-card" data-bar="1">
+                <div class="example-value">1 bar</div>
+                <div class="example-label">= 14.504 psi</div>
+            </div>
+            <div class="example-card" data-bar="2">
+                <div class="example-value">2 bar</div>
+                <div class="example-label">= 29.008 psi</div>
+            </div>
+            <div class="example-card" data-bar="2.5">
+                <div class="example-value">2.5 bar</div>
+                <div class="example-label">= 36.26 psi</div>
+            </div>
+            <div class="example-card" data-bar="3">
+                <div class="example-value">3 bar</div>
+                <div class="example-label">= 43.512 psi</div>
+            </div>
+            <div class="example-card" data-bar="0.5">
+                <div class="example-value">0.5 bar</div>
+                <div class="example-label">= 7.252 psi</div>
+            </div>
+            <div class="example-card" data-bar="1.5">
+                <div class="example-value">1.5 bar</div>
+                <div class="example-label">= 21.756 psi</div>
+            </div>
+        </div>
+        
+        <div class="info-bar">
+            <div><i class="fas fa-info-circle"></i> 1个标准大气压 ≈ 1.013 bar ≈ 14.696 psi</div>
+            <div><i class="fas fa-car"></i> 普通汽车轮胎: 2.0-2.5 bar</div>
+        </div>
+        
+        <div class="footer">
+            <p>气压转换计算器 &copy; 2023 | 精确计算，实时转换</p>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const inputElement = document.getElementById('input-value');
-            const resultElement = document.getElementById('result-value');
-            const tableBody = document.getElementById('conversion-table-body');
-            const swapBtn = document.getElementById('swap-btn');
-            const inputLabel = document.getElementById('input-label');
-            const resultLabel = document.getElementById('result-label');
-            const directionText = document.getElementById('conversion-direction');
-            const formulaText = document.getElementById('formula-text');
-            const formulaEquation = document.getElementById('formula-equation');
-            const tableHeader1 = document.getElementById('table-header-1');
-            const tableHeader2 = document.getElementById('table-header-2');
-            const inputIcon = document.getElementById('input-icon');
+        // 获取DOM元素
+        const barInput = document.getElementById('bar');
+        const psiInput = document.getElementById('psi');
+        const swapBtn = document.getElementById('swapBtn');
+        const exampleCards = document.querySelectorAll('.example-card');
+        const barError = barInput.parentNode.querySelector('.error-message');
+        const psiError = psiInput.parentNode.querySelector('.error-message');
+        
+        // 转换常数
+        const BAR_TO_PSI = 14.503773773;
+        const PSI_TO_BAR = 1 / BAR_TO_PSI;
+        
+        // Bar转PSI函数
+        function convertBarToPsi(bar) {
+            return bar * BAR_TO_PSI;
+        }
+        
+        // PSI转Bar函数
+        function convertPsiToBar(psi) {
+            return psi * PSI_TO_BAR;
+        }
+        
+        // 验证输入值
+        function validateInput(value, inputElement, errorElement) {
+            if (value < 0) {
+                inputElement.classList.add('error');
+                errorElement.style.display = 'block';
+                return false;
+            } else {
+                inputElement.classList.remove('error');
+                errorElement.style.display = 'none';
+                return true;
+            }
+        }
+        
+        // 更新PSI输入框
+        function updatePsi() {
+            const barValue = parseFloat(barInput.value);
             
-            // 转换方向状态
-            let isBarToPsi = true;
-            
-            // 常用转换值
-            const commonValues = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 10];
-            
-            // 填充表格
-            function populateTable() {
-                tableBody.innerHTML = '';
-                commonValues.forEach(value => {
-                    const row = document.createElement('tr');
-                    let value1, value2;
-                    
-                    if (isBarToPsi) {
-                        value1 = value + " bar";
-                        value2 = convertBarToPsi(value).toFixed(2) + " psi";
-                    } else {
-                        value1 = value + " psi";
-                        value2 = convertPsiToBar(value).toFixed(2) + " bar";
-                    }
-                    
-                    row.innerHTML = `
-                        <td>${value1}</td>
-                        <td>${value2}</td>
-                    `;
-                    tableBody.appendChild(row);
-                });
+            if (isNaN(barValue)) {
+                psiInput.value = '';
+                barInput.classList.remove('error');
+                barError.style.display = 'none';
+                return;
             }
             
-            // 转换函数
-            function convertBarToPsi(bar) {
-                return bar * 14.503773773;
+            if (!validateInput(barValue, barInput, barError)) {
+                psiInput.value = '';
+                return;
             }
             
-            function convertPsiToBar(psi) {
-                return psi / 14.503773773;
+            const psiValue = convertBarToPsi(barValue);
+            psiInput.value = psiValue.toFixed(3);
+        }
+        
+        // 更新Bar输入框
+        function updateBar() {
+            const psiValue = parseFloat(psiInput.value);
+            
+            if (isNaN(psiValue)) {
+                barInput.value = '';
+                psiInput.classList.remove('error');
+                psiError.style.display = 'none';
+                return;
             }
             
-            // 处理输入
-            function handleInput() {
-                let inputValue = parseFloat(inputElement.value);
-                
-                if (isNaN(inputValue)) {
-                    resultElement.textContent = '0.00';
-                    return;
-                }
-                
-                // 限制最大输入值
-                if (inputValue > 10000) {
-                    inputValue = 10000;
-                    inputElement.value = 10000;
-                }
-                
-                let resultValue;
-                if (isBarToPsi) {
-                    resultValue = convertBarToPsi(inputValue);
-                } else {
-                    resultValue = convertPsiToBar(inputValue);
-                }
-                
-                resultElement.textContent = resultValue.toFixed(2);
+            if (!validateInput(psiValue, psiInput, psiError)) {
+                barInput.value = '';
+                return;
             }
             
-            // 切换转换方向
-            function toggleConversionDirection() {
-                isBarToPsi = !isBarToPsi;
-                
-                // 更新UI标签
-                if (isBarToPsi) {
-                    inputLabel.textContent = "输入气压值 (Bar)";
-                    resultLabel.textContent = "转换结果 (PSI)";
-                    directionText.textContent = "Bar → PSI";
-                    formulaText.textContent = "1 bar = 14.503773773 psi";
-                    formulaEquation.textContent = "PSI = Bar × 14.503773773";
-                    tableHeader1.textContent = "Bar";
-                    tableHeader2.textContent = "PSI";
-                    inputIcon.className = "fas fa-tachometer-alt unit-icon";
-                } else {
-                    inputLabel.textContent = "输入气压值 (PSI)";
-                    resultLabel.textContent = "转换结果 (Bar)";
-                    directionText.textContent = "PSI → Bar";
-                    formulaText.textContent = "1 psi = 0.0689475729 bar";
-                    formulaEquation.textContent = "Bar = PSI × 0.0689475729";
-                    tableHeader1.textContent = "PSI";
-                    tableHeader2.textContent = "Bar";
-                    inputIcon.className = "fas fa-compress-alt unit-icon";
-                }
-                
-                // 保留当前值但交换输入和结果
-                const currentResult = parseFloat(resultElement.textContent);
-                if (!isNaN(currentResult)) {
-                    inputElement.value = currentResult.toFixed(2);
-                }
-                
-                // 重新计算
-                handleInput();
-                populateTable();
+            const barValue = convertPsiToBar(psiValue);
+            barInput.value = barValue.toFixed(6);
+        }
+        
+        // 交换转换方向
+        function swapConversion() {
+            const currentBarValue = barInput.value;
+            const currentPsiValue = psiInput.value;
+            
+            barInput.value = currentPsiValue;
+            psiInput.value = currentBarValue;
+            
+            // 更新标签
+            const barLabel = document.querySelector('label[for="bar"]');
+            const psiLabel = document.querySelector('label[for="psi"]');
+            const barUnit = barInput.nextElementSibling;
+            const psiUnit = psiInput.nextElementSibling;
+            
+            [barLabel.textContent, psiLabel.textContent] = [psiLabel.textContent, barLabel.textContent];
+            [barUnit.textContent, psiUnit.textContent] = [psiUnit.textContent, barUnit.textContent];
+            
+            // 更新图标
+            const barIcon = barLabel.querySelector('i');
+            const psiIcon = psiLabel.querySelector('i');
+            [barIcon.className, psiIcon.className] = [psiIcon.className, barIcon.className];
+            
+            // 更新转换方向
+            if (barLabel.textContent.includes('PSI')) {
+                updateBar();
+            } else {
+                updatePsi();
             }
-            
-            // 事件监听
-            inputElement.addEventListener('input', handleInput);
-            swapBtn.addEventListener('click', toggleConversionDirection);
-            
-            // 初始化
-            populateTable();
-            handleInput();
-            
-            // 示例动画
-            let exampleValue = 0;
-            const interval = setInterval(() => {
-                if (exampleValue < 2.5) {
-                    exampleValue += 0.5;
-                    inputElement.value = exampleValue;
-                    handleInput();
-                } else {
-                    clearInterval(interval);
-                }
-            }, 800);
+        }
+        
+        // 示例卡片点击事件
+        exampleCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // 添加点击动画效果
+                card.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 200);
+                
+                const barValue = card.getAttribute('data-bar');
+                barInput.value = barValue;
+                updatePsi();
+            });
         });
+        
+        // 添加事件监听器
+        barInput.addEventListener('input', updatePsi);
+        psiInput.addEventListener('input', updateBar);
+        swapBtn.addEventListener('click', swapConversion);
+        
+        // 初始化转换
+        updatePsi();
     </script>
 </body>
 </html>
